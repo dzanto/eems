@@ -8,11 +8,20 @@
 {% if latest_claims %}
     <ul>
     {% for claim in latest_claims %}
-        <li><a href="/logger/{{ claim.id }}/">{{ claim.claim_text }}</a></li>
+        <li><a href="{% url 'logger:claim_detail' claim.id %}">{{ claim.claim_text }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
     <p>No claim are available.</p>
+{% endif %}
+{% if addresses %}
+    <ul>
+    {% for address in addresses %}
+        <li><a href="{% url 'logger:address_detail' address.id %}">{{ address }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No address are available.</p>
 {% endif %}
 </body>
 </html>
