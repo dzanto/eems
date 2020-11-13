@@ -1,8 +1,35 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from .models import Claim, Address
 from django.views import generic
 from django.urls import reverse
+from . import forms
+
+
+def new_claim(request):
+    title_post = "Добавить заявку"
+    button_post = "Добавить"
+
+    if request.method != "POST":
+        form = forms.ClaimForm()
+        return render(request, "logger/new_claim.html", {
+            "form": form,
+            "title_post": title_post,
+            "button_post": button_post
+        })
+
+    form = forms.ClaimForm(request.POST)
+    if not form.is_valid():
+        return render(request, "logger/new_claim.html", {
+            "form": form,
+            "title_post": title_post,
+            "button_post": button_post
+        })
+
+    claim = form.save(commit=False)
+    # post.author = request.user
+    claim.save()
+    return redirect("logger:index")
 
 
 class IndexView(generic.ListView):
@@ -10,7 +37,7 @@ class IndexView(generic.ListView):
     context_object_name = 'latest_claims'
 
     def get_queryset(self):
-        return Claim.objects.order_by('-pub_date')[:5]
+        return Claim.objects.order_by('-pub_date')[:15]
 
 
 class ClaimDetailView(generic.DetailView):
