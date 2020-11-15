@@ -4,6 +4,7 @@ from . import models
 
 class DateTimeInput(forms.DateTimeInput):
     input_type = 'datetime-local'
+    autocomplete = 'on'
 
 
 class ClaimForm(forms.ModelForm):

@@ -6,6 +6,7 @@ from django.urls import reverse
 from .forms import ClaimForm
 from .tables import ClaimTable
 from django_tables2 import RequestConfig, SingleTableView
+from datetime import datetime
 
 
 def new_claim(request):
@@ -13,7 +14,10 @@ def new_claim(request):
     button_post = "Добавить"
 
     if request.method != "POST":
-        form = ClaimForm()
+        initial_data = {
+            'pub_date': datetime.now(),
+        }
+        form = ClaimForm(initial=initial_data)
         return render(request, "logger/new_claim.html", {
             "form": form,
             "title_post": title_post,
