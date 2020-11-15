@@ -14,10 +14,11 @@ def new_claim(request):
     button_post = "Добавить"
 
     if request.method != "POST":
-        initial_data = {
-            'pub_date': datetime.now(),
-        }
-        form = ClaimForm(initial=initial_data)
+        # initial_data = {
+        #     'pub_date': datetime.now(),
+        # }
+        # initial = initial_data
+        form = ClaimForm()
         return render(request, "logger/new_claim.html", {
             "form": form,
             "title_post": title_post,
