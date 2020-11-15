@@ -3,7 +3,9 @@ from django.http import Http404
 from .models import Claim, Address
 from django.views import generic
 from django.urls import reverse
-from . import forms
+from .forms import ClaimForm
+from .tables import ClaimTable
+from django_tables2 import RequestConfig, SingleTableView
 
 
 def new_claim(request):
@@ -11,14 +13,14 @@ def new_claim(request):
     button_post = "Добавить"
 
     if request.method != "POST":
-        form = forms.ClaimForm()
+        form = ClaimForm()
         return render(request, "logger/new_claim.html", {
             "form": form,
             "title_post": title_post,
             "button_post": button_post
         })
 
-    form = forms.ClaimForm(request.POST)
+    form = ClaimForm(request.POST)
     if not form.is_valid():
         return render(request, "logger/new_claim.html", {
             "form": form,
@@ -32,12 +34,29 @@ def new_claim(request):
     return redirect("logger:index")
 
 
-class IndexView(generic.ListView):
-    template_name = 'logger/index.html'
-    context_object_name = 'latest_claims'
+def claim_edit(request, claim_id):
+    claim = get_object_or_404(Claim, id=claim_id)
 
-    def get_queryset(self):
-        return Claim.objects.order_by('-pub_date')[:15]
+    title_post = "Редактировать запись"
+    button_post = "Сохранить запись"
+
+    form = ClaimForm(request.POST or None, instance=claim)
+    if form.is_valid():
+        post = form.save(commit=False)
+        post.save()
+        return redirect("logger:index")
+
+    return render(request, "logger/new_claim.html",
+                  {"form": form,
+                   "claim": claim,
+                   "title_post": title_post,
+                   "button_post": button_post})
+
+
+class IndexView(SingleTableView):
+    model = Claim
+    table_class = ClaimTable
+    template_name = 'logger/index.html'
 
 
 class ClaimDetailView(generic.DetailView):

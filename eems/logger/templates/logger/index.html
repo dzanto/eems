@@ -1,31 +1,12 @@
-{% load static %}
+{% load render_table from django_tables2 %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'logger/style.css' %}">
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% if latest_claims %}
-    <ul>
-    {% for claim in latest_claims %}
-        <li><a href="{% url 'logger:claim_detail' claim.id %}">{{ claim.claim_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No claim are available.</p>
-{% endif %}
-{% if addresses %}
-    <ul>
-    {% for address in addresses %}
-        <li><a href="{% url 'logger:address_detail' address.id %}">{{ address }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No address are available.</p>
-{% endif %}
-</body>
+<!doctype html>
+<html>
+    <head>
+        <title>List of persons</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    </head>
+    <body>
+        {% render_table table %}
+    </body>
 </html>

@@ -46,12 +46,15 @@ class Address(models.Model):
 
 class Claim(models.Model):
     claim_text = models.CharField(max_length=300, verbose_name='Заявка')
-    pub_date = models.DateTimeField(verbose_name='Дата заявки')
+    pub_date = models.DateTimeField(verbose_name='Дата заявки', default=datetime.datetime.now())
     address = models.ForeignKey(
         Address,
         on_delete=models.CASCADE,
         verbose_name='Адрес'
     )
+    worker = models.CharField(max_length=100, verbose_name='Исполнитель', blank=True)
+    fix_date_time = models.DateTimeField(verbose_name='Дата и время выполнения', blank=True, null=True)
+    report_text = models.CharField(max_length=300, verbose_name='Отчёт', blank=True)
 
     def __str__(self):
         return self.claim_text

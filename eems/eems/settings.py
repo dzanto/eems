@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_tables2',
     'logger.apps.LoggerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,6 +54,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'eems.urls'
 
+# TEMPLATES_DIR = os.path.join(BASE_DIR, 'logger/templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
