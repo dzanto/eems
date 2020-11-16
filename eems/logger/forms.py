@@ -27,3 +27,9 @@ class ClaimForm(forms.ModelForm):
             'fix_date_time': DateTimeInput(),
             'report_text': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
         }
+
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = models.Address
+        fields = '__all__'

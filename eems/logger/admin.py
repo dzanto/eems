@@ -7,7 +7,7 @@ from .models import Address, Claim
 class ClaimAdmin(admin.ModelAdmin):
     fields = ['address', 'pub_date', 'claim_text']
     list_display = ('address', 'pub_date', 'claim_text')
-    search_fields = ['address']
+    search_fields = ['claim_text']
 
 admin.site.register(Address)
 admin.site.register(Claim, ClaimAdmin)
