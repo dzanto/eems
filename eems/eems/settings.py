@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap3',
+    'django_filters',
     'django_tables2',
     'logger.apps.LoggerConfig',
     'django.contrib.admin',

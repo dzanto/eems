@@ -7,6 +7,9 @@ from .forms import ClaimForm
 from .tables import ClaimTable
 from django_tables2 import RequestConfig, SingleTableView
 from datetime import datetime
+from django_filters.views import FilterView
+from django_tables2.views import SingleTableMixin
+from .filters import ClaimFilter
 
 
 def new_claim(request):
@@ -62,6 +65,13 @@ class IndexView(SingleTableView):
     model = Claim
     table_class = ClaimTable
     template_name = 'logger/index.html'
+
+
+class FilteredClaimListView(SingleTableMixin, FilterView):
+    table_class = ClaimTable
+    model = Claim
+    template_name = "logger/index.html"
+    filterset_class = ClaimFilter
 
 
 class ClaimDetailView(generic.DetailView):
