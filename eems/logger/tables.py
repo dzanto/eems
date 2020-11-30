@@ -1,6 +1,7 @@
 import django_tables2 as tables
 from django_tables2.utils import A
 from .models import Claim
+from .filters import ClaimFilter
 
 
 class ClaimTable(tables.Table):
@@ -9,4 +10,10 @@ class ClaimTable(tables.Table):
         template_name = 'django_tables2/bootstrap.html'
 
     claim_text = tables.Column(linkify=("logger:claim_edit", [tables.A("pk")]))
-    pub_date = tables.DateTimeColumn(format='Y-m-d G:i')
+    # address_filter = ClaimFilter
+    # address = tables.Column(linkify=("logger:address_detail", [tables.A("address__pk")]))
+    # address = tables.Column(linkify=("logger:index", {"address__street": tables.A("address__street")}))
+            #                 , {"filter.address__street": tables.A(
+            # "address__street")})
+    pub_date = tables.DateTimeColumn(format='d-m-Y G:i')
+    fix_date_time = tables.DateColumn(format='d-m-Y G:i')

@@ -56,5 +56,55 @@ class Claim(models.Model):
     fix_date_time = models.DateTimeField(verbose_name='Дата и время выполнения', blank=True, null=True)
     report_text = models.CharField(max_length=300, verbose_name='Отчёт', blank=True)
 
+    class Meta:
+        verbose_name = 'Заявка'
+        verbose_name_plural = 'Заявки'
+
     def __str__(self):
         return self.claim_text
+
+
+class Owner(models.Model):
+    owner_name = models.CharField(max_length=20, verbose_name='Владелец')
+
+    class Meta:
+        verbose_name = 'Владелец'
+
+    def __str__(self):
+        return self.owner_name
+
+
+class Elevator(models.Model):
+    serial_number = models.CharField(max_length=10, verbose_name='Заводской номер', blank=True)
+    reg_number = models.CharField(max_length=10,
+                                     verbose_name='Регистрационный номер', blank=True)
+    capacity = models.IntegerField(verbose_name='Грузоподъемность', blank=True, null=True)
+    address = models.ForeignKey(
+        Address,
+        on_delete=models.CASCADE,
+        verbose_name='Адрес'
+    )
+    owner = models.ForeignKey(
+        Owner,
+        on_delete=models.CASCADE,
+        verbose_name='Владелец'
+    )
+    note = models.CharField(max_length=50, verbose_name='Примечание', blank=True)
+
+    def __str__(self):
+        return f'{self.address} {self.note}'
+
+
+class Task(models.Model):
+    task_text = models.CharField(max_length=300, verbose_name='Замечание', blank=True)
+    pub_date = models.DateField(verbose_name='Дата замечания', default=datetime.date.today())
+    elevator = models.ForeignKey(Elevator, on_delete=models.CASCADE, verbose_name='Лифт/подъемник')
+    worker = models.CharField(max_length=100, verbose_name='Исполнитель',
+                              blank=True)
+    fix_date = models.DateField(verbose_name='Дата выполнения',
+                                         blank=True, null=True)
+    report_text = models.CharField(max_length=300, verbose_name='Отчёт',
+                                   blank=True)
+
+    def __str__(self):
+        return self.task_text

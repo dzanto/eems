@@ -10,4 +10,6 @@ urlpatterns = [
     path('address/<int:pk>/', views.AddressDetailView.as_view(), name='address_detail'),
     path('new_claim/', views.new_claim, name='new_claim'),
     path('<int:claim_id>/edit/', views.claim_edit, name='claim_edit'),
+    path('new_elevator/', views.new_elevator, name='new_elevator'),
+    path('new_task/', views.new_task, name='new_task'),
 ]

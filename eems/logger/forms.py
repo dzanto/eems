@@ -9,6 +9,11 @@ class DateTimeInput(forms.DateTimeInput):
     max = "2018-12-31"
 
 
+class DateInput(forms.DateInput):
+    value = "2013-01-08"
+    input_type = "date"
+
+
 class ClaimForm(forms.ModelForm):
     class Meta:
         model = models.Claim
@@ -23,7 +28,7 @@ class ClaimForm(forms.ModelForm):
         }
         widgets = {
             'claim_text': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
-            'pub_date': DateTimeInput(),
+            # 'pub_date': forms.SplitDateTimeWidget,
             'fix_date_time': DateTimeInput(),
             'report_text': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
         }
@@ -33,3 +38,18 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = models.Address
         fields = '__all__'
+
+
+class ElevatorForm(forms.ModelForm):
+    class Meta:
+        model = models.Elevator
+        fields = '__all__'
+
+
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = models.Task
+        fields = '__all__'
+        widgets = {
+            'fix_date': forms.SelectDateWidget,
+        }

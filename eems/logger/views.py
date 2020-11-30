@@ -3,7 +3,7 @@ from django.http import Http404
 from .models import Claim, Address
 from django.views import generic
 from django.urls import reverse
-from .forms import ClaimForm, AddressForm
+from .forms import ClaimForm, AddressForm, ElevatorForm, TaskForm
 from .tables import ClaimTable
 from django_tables2 import RequestConfig, SingleTableView
 from datetime import datetime
@@ -22,7 +22,7 @@ def new_claim(request):
         # }
         # initial = initial_data
         form = ClaimForm()
-        return render(request, "logger/new_claim.html", {
+        return render(request, "new_object.html", {
             "form": form,
             "title_post": title_post,
             "button_post": button_post
@@ -30,7 +30,7 @@ def new_claim(request):
 
     form = ClaimForm(request.POST)
     if not form.is_valid():
-        return render(request, "logger/new_claim.html", {
+        return render(request, "new_object.html", {
             "form": form,
             "title_post": title_post,
             "button_post": button_post
@@ -54,7 +54,7 @@ def claim_edit(request, claim_id):
         post.save()
         return redirect("logger:index")
 
-    return render(request, "logger/new_claim.html",
+    return render(request, "new_object.html",
                   {"form": form,
                    "claim": claim,
                    "title_post": title_post,
@@ -64,24 +64,24 @@ def claim_edit(request, claim_id):
 class IndexView(SingleTableView):
     model = Claim
     table_class = ClaimTable
-    template_name = 'logger/index.html'
+    template_name = 'index.html'
 
 
 class FilteredClaimListView(SingleTableMixin, FilterView):
     table_class = ClaimTable
     model = Claim
-    template_name = "logger/index.html"
+    template_name = "index.html"
     filterset_class = ClaimFilter
 
 
 class ClaimDetailView(generic.DetailView):
     model = Claim
-    template_name = 'logger/claim_detail.html'
+    template_name = 'claim_detail.html'
 
 
 class AddressDetailView(generic.DetailView):
     model = Address
-    template_name = 'logger/address_detail.html'
+    template_name = 'address_detail.html'
 
 
 def new_address(request):
@@ -90,7 +90,7 @@ def new_address(request):
 
     if request.method != "POST":
         form = AddressForm()
-        return render(request, "logger/new_address.html", {
+        return render(request, "new_object.html", {
             "form": form,
             "title_post": title_post,
             "button_post": button_post
@@ -98,7 +98,57 @@ def new_address(request):
 
     form = AddressForm(request.POST)
     if not form.is_valid():
-        return render(request, "logger/new_address.html", {
+        return render(request, "new_object.html", {
+            "form": form,
+            "title_post": title_post,
+            "button_post": button_post
+        })
+
+    claim = form.save(commit=False)
+    claim.save()
+    return redirect("logger:index")
+
+
+def new_elevator(request):
+    title_post = "Добавить лифт"
+    button_post = "Добавить лифт"
+
+    if request.method != "POST":
+        form = ElevatorForm()
+        return render(request, "new_object.html", {
+            "form": form,
+            "title_post": title_post,
+            "button_post": button_post
+        })
+
+    form = ElevatorForm(request.POST)
+    if not form.is_valid():
+        return render(request, "new_object.html", {
+            "form": form,
+            "title_post": title_post,
+            "button_post": button_post
+        })
+
+    claim = form.save(commit=False)
+    claim.save()
+    return redirect("logger:index")
+
+
+def new_task(request):
+    title_post = "Добавить в план"
+    button_post = "Добавить в план"
+
+    if request.method != "POST":
+        form = TaskForm()
+        return render(request, "new_object.html", {
+            "form": form,
+            "title_post": title_post,
+            "button_post": button_post
+        })
+
+    form = TaskForm(request.POST)
+    if not form.is_valid():
+        return render(request, "new_object.html", {
             "form": form,
             "title_post": title_post,
             "button_post": button_post
