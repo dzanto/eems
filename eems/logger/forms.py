@@ -1,5 +1,6 @@
 from django import forms
 from . import models
+from dal import autocomplete
 
 
 class DateTimeInput(forms.DateTimeInput):
@@ -28,7 +29,7 @@ class ClaimForm(forms.ModelForm):
         }
         widgets = {
             'claim_text': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
-            # 'pub_date': forms.SplitDateTimeWidget,
+            'address': autocomplete.ModelSelect2(url='logger:address-autocomplete'),
             'fix_date_time': DateTimeInput(),
             'report_text': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
         }

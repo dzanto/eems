@@ -46,7 +46,7 @@ class Address(models.Model):
 
 class Claim(models.Model):
     claim_text = models.CharField(max_length=300, verbose_name='Заявка')
-    pub_date = models.DateTimeField(verbose_name='Дата заявки', default=datetime.datetime.now())
+    pub_date = models.DateTimeField(verbose_name='Дата заявки', default=timezone.now)
     address = models.ForeignKey(
         Address,
         on_delete=models.CASCADE,
@@ -97,7 +97,7 @@ class Elevator(models.Model):
 
 class Task(models.Model):
     task_text = models.CharField(max_length=300, verbose_name='Замечание', blank=True)
-    pub_date = models.DateField(verbose_name='Дата замечания', default=datetime.date.today())
+    pub_date = models.DateField(verbose_name='Дата замечания', default=timezone.now)
     elevator = models.ForeignKey(Elevator, on_delete=models.CASCADE, verbose_name='Лифт/подъемник')
     worker = models.CharField(max_length=100, verbose_name='Исполнитель',
                               blank=True)

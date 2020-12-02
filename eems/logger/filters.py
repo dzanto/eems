@@ -1,6 +1,7 @@
 import django_filters
-from .models import Claim
+from .models import Claim, Task
 from django.db.models import Q
+from django.db.models import QuerySet
 
 
 class ClaimFilter(django_filters.FilterSet):
@@ -17,7 +18,15 @@ class ClaimFilter(django_filters.FilterSet):
         fields = ['claim', 'pub_date', 'address__street', 'address__house', 'address__entrance']
 
     def claim_and_report_filter(self, queryset, name, value):
-        return Claim.objects.filter(
-            Q(claim_text__icontains=value) | Q(report_text__icontains=value)
-        )
+        value_list = value.split(' ')
+        qs = Claim.objects.filter(claim_text__icontains=value)
+        for value in value_list:
+            qs = qs | Claim.objects.filter(Q(claim_text__icontains=value) | Q(report_text__icontains=value))
+        return qs
+
+
+class TaskFilter(django_filters.FilterSet):
+    class Meta:
+        model = Task
+        fields = ['task_text', 'pub_date', 'elevator', 'worker', 'fix_date', 'report_text']
 

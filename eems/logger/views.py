@@ -1,15 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
-from .models import Claim, Address
+from .models import Claim, Address, Task
 from django.views import generic
 from django.urls import reverse
 from .forms import ClaimForm, AddressForm, ElevatorForm, TaskForm
-from .tables import ClaimTable
+from .tables import ClaimTable, TaskTable
 from django_tables2 import RequestConfig, SingleTableView
 from datetime import datetime
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
-from .filters import ClaimFilter
+from .filters import ClaimFilter, TaskFilter
 
 
 def new_claim(request):
@@ -61,10 +61,10 @@ def claim_edit(request, claim_id):
                    "button_post": button_post})
 
 
-class IndexView(SingleTableView):
-    model = Claim
-    table_class = ClaimTable
-    template_name = 'index.html'
+# class IndexView(SingleTableView):
+#     model = Claim
+#     table_class = ClaimTable
+#     template_name = 'index.html'
 
 
 class FilteredClaimListView(SingleTableMixin, FilterView):
@@ -72,6 +72,13 @@ class FilteredClaimListView(SingleTableMixin, FilterView):
     model = Claim
     template_name = "index.html"
     filterset_class = ClaimFilter
+
+
+class FilteredTaskListView(SingleTableMixin, FilterView):
+    table_class = TaskTable
+    model = Task
+    template_name = "index.html"
+    filterset_class = TaskFilter
 
 
 class ClaimDetailView(generic.DetailView):
