@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 from django.utils import timezone
+from django.urls import reverse
 
 
 class Address(models.Model):
@@ -108,3 +109,6 @@ class Task(models.Model):
 
     def __str__(self):
         return self.task_text
+
+    def get_absolute_url(self):
+        return reverse('logger:tasks') # , kwargs={'pk': self.pk}

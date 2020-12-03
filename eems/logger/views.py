@@ -10,6 +10,7 @@ from datetime import datetime
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from .filters import ClaimFilter, TaskFilter
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 
 def new_claim(request):
@@ -164,3 +165,17 @@ def new_task(request):
     claim = form.save(commit=False)
     claim.save()
     return redirect("logger:index")
+
+
+class TaskUpdate(UpdateView):
+    model = Task
+    fields = '__all__'
+    template_name = 'new_object.html'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['button_post'] = 'Сохранить'
+        context['title_post'] = 'Редактирование плана'
+        return context

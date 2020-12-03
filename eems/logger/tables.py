@@ -24,6 +24,7 @@ class TaskTable(tables.Table):
         model = Task
         template_name = 'django_tables2/bootstrap.html'
 
+    task_text = tables.Column(linkify=("logger:task-update", [tables.A("pk")]))
     pub_date = tables.DateColumn(format='d-m-Y')
     fix_date = tables.DateColumn(format='d-m-Y')
 

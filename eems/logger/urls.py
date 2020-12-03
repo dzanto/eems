@@ -14,6 +14,7 @@ urlpatterns = [
     path('new_elevator/', views.new_elevator, name='new_elevator'),
     path('new_task/', views.new_task, name='new_task'),
     path('tasks/', views.FilteredTaskListView.as_view(), name='tasks'),
+    path('tasks/<int:pk>/', views.TaskUpdate.as_view(), name='task-update'),
     re_path(
         r'^address-autocomplete/$',
         dalviews.AddressAutocomplete.as_view(create_field='street'),
