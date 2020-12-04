@@ -35,6 +35,9 @@ class ElevatorForm(forms.ModelForm):
     class Meta:
         model = models.Elevator
         fields = '__all__'
+        widgets = {
+            'address': autocomplete.ModelSelect2(url='logger:address-autocomplete'),
+        }
 
 
 class TaskForm(forms.ModelForm):
