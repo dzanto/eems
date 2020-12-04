@@ -3,19 +3,13 @@ from . import models
 from dal import autocomplete
 
 
-class DateTimeInput(forms.DateTimeInput):
-    value = '2018-07-22'
-    input_type = 'datetime-local'
-    min = "2018-01-01"
-    max = "2018-12-31"
-
-
 class DateInput(forms.DateInput):
     value = "2013-01-08"
     input_type = "date"
 
 
 class ClaimForm(forms.ModelForm):
+
     class Meta:
         model = models.Claim
         fields = '__all__'
@@ -29,8 +23,9 @@ class ClaimForm(forms.ModelForm):
         }
         widgets = {
             'claim_text': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
+            'pub_date': forms.DateTimeInput(format='%Y-%m-%dT%H:%M', attrs={'type': 'datetime-local',}),
             'address': autocomplete.ModelSelect2(url='logger:address-autocomplete'),
-            'fix_date_time': DateTimeInput(),
+            'fix_date_time': forms.DateTimeInput(format='%Y-%m-%dT%H:%M', attrs={'type': 'datetime-local',}),
             'report_text': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
         }
 
@@ -52,5 +47,5 @@ class TaskForm(forms.ModelForm):
         model = models.Task
         fields = '__all__'
         widgets = {
-            'fix_date': forms.SelectDateWidget,
+            'fix_date': forms.DateInput(attrs={'type': 'date'}),
         }
