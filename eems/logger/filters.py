@@ -24,7 +24,7 @@ class ClaimFilter(django_filters.FilterSet):
 
     def claim_and_report_filter(self, queryset, name, value):
         value_list = value.split(' ')
-        qs = Claim.objects.filter(claim_text__icontains=value)
+        qs = Claim.objects.none()
         for value in value_list:
             qs = qs | Claim.objects.filter(
                 Q(claim_text__icontains=value) |
@@ -34,19 +34,15 @@ class ClaimFilter(django_filters.FilterSet):
 
     def address_filter(self, queryset, name, value):
         value_list = value.split(' ')
-        qs = Claim.objects.filter(
-            Q(address__street__icontains=value_list[0]) |
-            Q(address__house__icontains=value_list[0]) |
-            Q(address__entrance__icontains=value_list[0])
-        )
+        qs = Claim.objects.all()
         if len(value_list) == 1:
             return qs
         else:
             for value in value_list:
-                qs = qs & Claim.objects.filter(
-                    Q(address__street__icontains=value) |
-                    Q(address__house__icontains=value) |
-                    Q(address__entrance__icontains=value)
+                qs = qs.exclude(
+                    ~Q(address__street__icontains=value) &
+                    ~Q(address__house__icontains=value) &
+                    ~Q(address__entrance__icontains=value)
                 )
             return qs
 

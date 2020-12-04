@@ -3,11 +3,6 @@ from . import models
 from dal import autocomplete
 
 
-class DateInput(forms.DateInput):
-    value = "2013-01-08"
-    input_type = "date"
-
-
 class ClaimForm(forms.ModelForm):
 
     class Meta:
@@ -22,11 +17,11 @@ class ClaimForm(forms.ModelForm):
             'claim_text': 'Текст',
         }
         widgets = {
-            'claim_text': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
-            'pub_date': forms.DateTimeInput(format='%Y-%m-%dT%H:%M', attrs={'type': 'datetime-local',}),
+            'claim_text': forms.Textarea(attrs={'cols': 40, 'rows': 6}),
+            'pub_date': forms.DateTimeInput(format='%Y-%m-%dT%H:%M', attrs={'type': 'datetime-local'}),
             'address': autocomplete.ModelSelect2(url='logger:address-autocomplete'),
             'fix_date_time': forms.DateTimeInput(format='%Y-%m-%dT%H:%M', attrs={'type': 'datetime-local',}),
-            'report_text': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
+            'report_text': forms.Textarea(attrs={'cols': 40, 'rows': 6}),
         }
 
 
@@ -47,5 +42,8 @@ class TaskForm(forms.ModelForm):
         model = models.Task
         fields = '__all__'
         widgets = {
+            'task_text': forms.Textarea(attrs={'cols': 40, 'rows': 6}),
+            'pub_date': forms.DateInput(attrs={'type': 'date'}),
             'fix_date': forms.DateInput(attrs={'type': 'date'}),
+            'report_text': forms.Textarea(attrs={'cols': 40, 'rows': 6}),
         }

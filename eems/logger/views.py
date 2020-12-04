@@ -169,13 +169,11 @@ def new_task(request):
 
 class TaskUpdate(UpdateView):
     model = Task
-    fields = '__all__'
     template_name = 'new_object.html'
+    form_class = TaskForm
 
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
         context['button_post'] = 'Сохранить'
         context['title_post'] = 'Редактирование плана'
         return context

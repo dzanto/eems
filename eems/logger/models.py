@@ -100,15 +100,23 @@ class Task(models.Model):
     task_text = models.CharField(max_length=300, verbose_name='Замечание', blank=True)
     pub_date = models.DateField(verbose_name='Дата замечания', default=timezone.now)
     elevator = models.ForeignKey(Elevator, on_delete=models.CASCADE, verbose_name='Лифт/подъемник')
-    worker = models.CharField(max_length=100, verbose_name='Исполнитель',
-                              blank=True)
-    fix_date = models.DateField(verbose_name='Дата выполнения',
-                                         blank=True, null=True)
-    report_text = models.CharField(max_length=300, verbose_name='Отчёт',
-                                   blank=True)
+    worker = models.CharField(
+        max_length=100,
+        verbose_name='Исполнитель',
+        blank=True
+    )
+    fix_date = models.DateField(
+        verbose_name='Дата выполнения',
+        blank=True, null=True
+    )
+    report_text = models.CharField(
+        max_length=300,
+        verbose_name='Отчёт',
+        blank=True
+    )
 
     def __str__(self):
         return self.task_text
 
     def get_absolute_url(self):
-        return reverse('logger:tasks') # , kwargs={'pk': self.pk}
+        return reverse('logger:tasks')
