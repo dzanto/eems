@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'django_filters',
     'django_tables2',
+    'users',
     'logger.apps.LoggerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -129,3 +130,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 DATETIME_INPUT_FORMATS += ('%Y-%m-%dT%H:%M:%S',)
+
+# Login
+LOGIN_URL = "/auth/login/"
+LOGIN_REDIRECT_URL = "logger:index"
+# LOGOUT_REDIRECT_URL = "index"

@@ -18,6 +18,10 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('logger/', include('logger.urls')),
+    path('', include('logger.urls')),
     path('admin/', admin.site.urls),
+    path("auth/", include("users.urls")),
+    #  если нужного шаблона для /auth не нашлось в файле users.urls —
+    #  ищем совпадения в файле django.contrib.auth.urls
+    path("auth/", include("django.contrib.auth.urls")),
 ]

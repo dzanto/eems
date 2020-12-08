@@ -1,11 +1,14 @@
 <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
     <a class="navbar-brand" href="/"><span style="color:red">В</span>ологдалифт</a>
     <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-dark" href="{% url 'logger:index' %}">Журнал заявок</a>
-            <a class="p-2 text-dark" href="{% url 'logger:new_claim' %}">Новая заявка</a>
-            <a class="p-2 text-dark" href="{% url 'logger:new_address' %}">Добавить адрес</a>
-            <a class="p-2 text-dark" href="{% url 'logger:new_elevator' %}">Добавить лифт</a>
-            <a class="p-2 text-dark" href="{% url 'logger:new_task' %}">Добавить в план</a>
-            <a class="p-2 text-dark" href="{% url 'logger:tasks' %}">Планы</a>
+        <a class="p-2 text-dark" href="{% url 'logger:index' %}">Журнал заявок</a>
+        <a class="p-2 text-dark" href="{% url 'logger:new_claim' %}">Новая заявка</a>
+        <a class="p-2 text-dark" href="{% url 'logger:new_address' %}">Добавить адрес</a>
+        <a class="p-2 text-dark" href="{% url 'logger:new_elevator' %}">Добавить лифт</a>
+        <a class="p-2 text-dark" href="{% url 'logger:new_task' %}">Добавить в план</a>
+        <a class="p-2 text-dark" href="{% url 'logger:tasks' %}">Планы</a>
+        {% if user.is_authenticated %}
+            Пользователь: {{ user.username }}
+        {% endif %}
     </nav>
 </nav>
