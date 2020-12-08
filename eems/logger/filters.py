@@ -35,20 +35,24 @@ class ClaimFilter(django_filters.FilterSet):
     def address_filter(self, queryset, name, value):
         value_list = value.split(' ')
         qs = Claim.objects.all()
-        if len(value_list) == 1:
-            return qs
-        else:
-            for value in value_list:
-                qs = qs.exclude(
-                    ~Q(address__street__icontains=value) &
-                    ~Q(address__house__icontains=value) &
-                    ~Q(address__entrance__icontains=value)
-                )
-            return qs
+        for value in value_list:
+            qs = qs.exclude(
+                ~Q(address__street__icontains=value) &
+                ~Q(address__house__icontains=value) &
+                ~Q(address__entrance__icontains=value)
+            )
+        return qs
 
 
 class TaskFilter(django_filters.FilterSet):
     class Meta:
         model = Task
-        fields = ['task_text', 'pub_date', 'elevator', 'worker', 'fix_date', 'report_text']
+        fields = [
+            'task_text',
+            'pub_date',
+            'elevator',
+            'worker',
+            'fix_date',
+            'report_text',
+        ]
 
