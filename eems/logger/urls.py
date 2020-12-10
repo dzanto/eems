@@ -13,6 +13,7 @@ urlpatterns = [
     path('<int:claim_id>/edit/', views.claim_edit, name='claim_edit'),
     path('new_elevator/', views.new_elevator, name='new_elevator'),
     path('new_task/', views.new_task, name='new_task'),
+    path('new_task1/', views.NewTask.as_view(), name='new_task1'),
     path('tasks/', views.FilteredTaskListView.as_view(), name='tasks'),
     path('tasks/<int:pk>/', views.TaskUpdate.as_view(), name='task-update'),
     re_path(

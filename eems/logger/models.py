@@ -2,6 +2,9 @@ from django.db import models
 import datetime
 from django.utils import timezone
 from django.urls import reverse
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class Address(models.Model):
@@ -55,7 +58,8 @@ class Claim(models.Model):
     )
     worker = models.CharField(max_length=100, verbose_name='Исполнитель', blank=True)
     fix_date_time = models.DateTimeField(verbose_name='Дата и время выполнения', blank=True, null=True)
-    report_text = models.CharField(max_length=300, verbose_name='Отчёт', blank=True)
+    report_text = models.CharField(max_length=300, verbose_name='Отчёт', blank=True, )
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Диспетчер', related_name="claims", blank=True, null=True)
 
     class Meta:
         verbose_name = 'Заявка'
@@ -100,6 +104,14 @@ class Task(models.Model):
     task_text = models.CharField(max_length=300, verbose_name='Замечание', blank=True)
     pub_date = models.DateField(verbose_name='Дата замечания', default=timezone.now)
     elevator = models.ForeignKey(Elevator, on_delete=models.CASCADE, verbose_name='Лифт/подъемник')
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Автор',
+        related_name='tasks',
+        null=True,
+        blank=True
+    )
     worker = models.CharField(
         max_length=100,
         verbose_name='Исполнитель',

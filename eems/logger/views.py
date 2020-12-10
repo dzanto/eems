@@ -38,7 +38,7 @@ def new_claim(request):
         })
 
     claim = form.save(commit=False)
-    # post.author = request.user
+    claim.author = request.user
     claim.save()
     return redirect("logger:index")
 
@@ -176,4 +176,16 @@ class TaskUpdate(UpdateView):
         context = super().get_context_data(**kwargs)
         context['button_post'] = 'Сохранить'
         context['title_post'] = 'Редактирование плана'
+        return context
+
+
+class NewTask(CreateView):
+    model = Task
+    template_name = 'new_object.html'
+    form_class = TaskForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['button_post'] = 'Добавить'
+        context['title_post'] = 'Добавить в план'
         return context

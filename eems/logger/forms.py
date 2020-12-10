@@ -8,6 +8,7 @@ class ClaimForm(forms.ModelForm):
     class Meta:
         model = models.Claim
         fields = '__all__'
+        exclude = ['author']
 
         help_texts = {
             "claim_text": "Введите текст заявки",
