@@ -18,7 +18,6 @@ class ClaimFilter(django_filters.FilterSet):
         model = Claim
         fields = [
             'claim',
-            'pub_date',
             'address'
         ]
 

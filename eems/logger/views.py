@@ -70,12 +70,11 @@ def claim_edit(request, claim_id):
 
 
 class FilteredClaimListView(SingleTableMixin, FilterView):
-# class FilteredClaimListView(SingleTableView):
     table_class = ClaimTable
     model = Claim
     template_name = "index.html"
     filterset_class = ClaimFilter
-    paginate_by = 5
+    paginate_by = 20
 
 
 class FilteredTaskListView(SingleTableMixin, FilterView):
