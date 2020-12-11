@@ -7,6 +7,13 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
+def get_user_name(self):
+    return '{} {}'.format(self.last_name, self.first_name)
+
+
+User.add_to_class("__str__", get_user_name)
+
+
 class Address(models.Model):
     city = models.CharField(max_length=50, blank=True, verbose_name='Город')
     street = models.CharField(max_length=100, verbose_name='Улица')
@@ -20,7 +27,7 @@ class Address(models.Model):
         if self.city != '':
             address.append(f'г. {self.city}')
         if self.street != '':
-            address.append(f'ул. {self.street}')
+            address.append(f'{self.street}')
         if self.house != '':
             address.append(f'д. {self.house}')
         if self.entrance != '':
@@ -48,27 +55,6 @@ class Address(models.Model):
         ]
 
 
-class Claim(models.Model):
-    claim_text = models.CharField(max_length=300, verbose_name='Заявка')
-    pub_date = models.DateTimeField(verbose_name='Дата заявки', default=timezone.now)
-    address = models.ForeignKey(
-        Address,
-        on_delete=models.CASCADE,
-        verbose_name='Адрес'
-    )
-    worker = models.CharField(max_length=100, verbose_name='Исполнитель', blank=True)
-    fix_date_time = models.DateTimeField(verbose_name='Дата и время выполнения', blank=True, null=True)
-    report_text = models.CharField(max_length=300, verbose_name='Отчёт', blank=True, )
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Диспетчер', related_name="claims", blank=True, null=True)
-
-    class Meta:
-        verbose_name = 'Заявка'
-        verbose_name_plural = 'Заявки'
-
-    def __str__(self):
-        return self.claim_text
-
-
 class Owner(models.Model):
     owner_name = models.CharField(max_length=20, verbose_name='Владелец')
 
@@ -92,12 +78,65 @@ class Elevator(models.Model):
     owner = models.ForeignKey(
         Owner,
         on_delete=models.CASCADE,
-        verbose_name='Владелец'
+        verbose_name='Владелец',
+        null=True,
+        blank=True,
     )
     note = models.CharField(max_length=50, verbose_name='Примечание', blank=True)
 
     def __str__(self):
         return f'{self.address} {self.note}'
+
+
+class Claim(models.Model):
+    claim_text = models.CharField(max_length=300, verbose_name='Заявка')
+    pub_date = models.DateTimeField(verbose_name='Дата заявки', default=timezone.now)
+    address = models.ForeignKey(
+        Address,
+        on_delete=models.CASCADE,
+        verbose_name='Адрес',
+        null=True,
+        blank=True,
+    )
+    elevator = models.ForeignKey(
+        Elevator,
+        on_delete=models.CASCADE,
+        verbose_name='Лифт',
+        related_name='claims_elevator',
+        null=True,
+    )
+    worker = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Исполнитель',
+        related_name='claims_worker',
+        null=True,
+        blank=True,
+        default=None,
+    )
+    fix_date_time = models.DateTimeField(verbose_name='Дата выполнения', blank=True, null=True)
+    report_text = models.CharField(max_length=300, verbose_name='Отчёт', blank=True, )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Диспетчер',
+        related_name="claims_author",
+        blank=True,
+        null=True
+    )
+
+    class Meta:
+        verbose_name = 'Заявка'
+        verbose_name_plural = 'Заявки'
+
+    def __str__(self):
+        return self.claim_text
+
+
+
+
+
+
 
 
 class Task(models.Model):
@@ -108,14 +147,18 @@ class Task(models.Model):
         User,
         on_delete=models.CASCADE,
         verbose_name='Автор',
-        related_name='tasks',
+        related_name='tasks_author',
         null=True,
-        blank=True
+        blank=True,
     )
-    worker = models.CharField(
-        max_length=100,
+    worker = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
         verbose_name='Исполнитель',
-        blank=True
+        related_name='tasks_worker',
+        null=True,
+        blank=True,
+        default=None,
     )
     fix_date = models.DateField(
         verbose_name='Дата выполнения',
@@ -131,4 +174,4 @@ class Task(models.Model):
         return self.task_text
 
     def get_absolute_url(self):
-        return reverse('logger:tasks')
+        return reverse('logger:task-update', kwargs={'id': self.id})

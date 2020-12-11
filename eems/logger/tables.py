@@ -8,6 +8,7 @@ class ClaimTable(tables.Table):
     class Meta:
         model = Claim
         template_name = 'django_tables2/bootstrap.html'
+        exclude = ['id']
 
     claim_text = tables.Column(linkify=("logger:claim_edit", [tables.A("pk")]))
     # address_filter = ClaimFilter
@@ -23,6 +24,7 @@ class TaskTable(tables.Table):
     class Meta:
         model = Task
         template_name = 'django_tables2/bootstrap.html'
+        exclude = ['id']
 
     task_text = tables.Column(linkify=("logger:task-update", [tables.A("pk")]))
     pub_date = tables.DateColumn(format='d.m.Y')

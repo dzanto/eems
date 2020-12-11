@@ -2,15 +2,16 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from .models import Claim, Address, Task
 from django.views import generic
-from django.urls import reverse
+from django.urls import reverse_lazy
 from .forms import ClaimForm, AddressForm, ElevatorForm, TaskForm
 from .tables import ClaimTable, TaskTable
 from django_tables2 import RequestConfig, SingleTableView
 from datetime import datetime
 from django_filters.views import FilterView
-from django_tables2.views import SingleTableMixin
+from django_tables2.views import SingleTableMixin, SingleTableView
 from .filters import ClaimFilter, TaskFilter
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.core import paginator
 
 
 def new_claim(request):
@@ -69,10 +70,12 @@ def claim_edit(request, claim_id):
 
 
 class FilteredClaimListView(SingleTableMixin, FilterView):
+# class FilteredClaimListView(SingleTableView):
     table_class = ClaimTable
     model = Claim
     template_name = "index.html"
     filterset_class = ClaimFilter
+    paginate_by = 5
 
 
 class FilteredTaskListView(SingleTableMixin, FilterView):
@@ -142,31 +145,6 @@ def new_elevator(request):
     return redirect("logger:index")
 
 
-def new_task(request):
-    title_post = "Добавить в план"
-    button_post = "Добавить в план"
-
-    if request.method != "POST":
-        form = TaskForm()
-        return render(request, "new_object.html", {
-            "form": form,
-            "title_post": title_post,
-            "button_post": button_post
-        })
-
-    form = TaskForm(request.POST)
-    if not form.is_valid():
-        return render(request, "new_object.html", {
-            "form": form,
-            "title_post": title_post,
-            "button_post": button_post
-        })
-
-    claim = form.save(commit=False)
-    claim.save()
-    return redirect("logger:index")
-
-
 class TaskUpdate(UpdateView):
     model = Task
     template_name = 'new_object.html'
@@ -183,9 +161,17 @@ class NewTask(CreateView):
     model = Task
     template_name = 'new_object.html'
     form_class = TaskForm
+    success_url = reverse_lazy('logger:tasks')
+
+    def form_valid(self, form):
+        task = form.save(commit=False)
+        task.author = self.request.user
+        task.save()
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['button_post'] = 'Добавить'
         context['title_post'] = 'Добавить в план'
         return context
+
