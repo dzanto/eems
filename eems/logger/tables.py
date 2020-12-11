@@ -7,7 +7,8 @@ from .filters import ClaimFilter
 class ClaimTable(tables.Table):
     class Meta:
         model = Claim
-        template_name = 'django_tables2/bootstrap.html'
+        # template_name = 'django_tables2/bootstrap.html'
+        template_name = 'django_tables2/bootstrap4.html'
         exclude = ['id']
 
     claim_text = tables.Column(linkify=("logger:claim_edit", [tables.A("pk")]))
