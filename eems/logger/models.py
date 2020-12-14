@@ -133,15 +133,14 @@ class Claim(models.Model):
         return self.claim_text
 
 
-
-
-
-
-
-
 class Task(models.Model):
+    REGIONS = (
+        ('region1', '1 участок'),
+        ('region2', '2 участок'),
+    )
     task_text = models.CharField(max_length=300, verbose_name='Замечание', blank=True)
-    pub_date = models.DateField(verbose_name='Дата замечания', default=timezone.now)
+    pub_date = models.DateField(verbose_name='Дата выявления замечания', default=timezone.now)
+    # region = models.Choices
     elevator = models.ForeignKey(Elevator, on_delete=models.CASCADE, verbose_name='Лифт/подъемник')
     author = models.ForeignKey(
         User,
