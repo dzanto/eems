@@ -51,6 +51,8 @@ class TaskForm(forms.ModelForm):
         widgets = {
             'task_text': forms.Textarea(attrs={'cols': 40, 'rows': 6}),
             'pub_date': forms.DateInput(attrs={'type': 'date'}),
+            'order_date': forms.DateInput(attrs={'type': 'date'}),
             'fix_date': forms.DateInput(attrs={'type': 'date'}),
             'report_text': forms.Textarea(attrs={'cols': 40, 'rows': 6}),
+            'fixed': forms.CheckboxInput(),
         }

@@ -140,7 +140,13 @@ class Task(models.Model):
     )
     task_text = models.CharField(max_length=300, verbose_name='Замечание', blank=True)
     pub_date = models.DateField(verbose_name='Дата выявления замечания', default=timezone.now)
-    # region = models.Choices
+    region = models.CharField(
+        max_length=7,
+        choices=REGIONS,
+        verbose_name='Участок',
+        blank=True,
+        null=True
+    )
     elevator = models.ForeignKey(Elevator, on_delete=models.CASCADE, verbose_name='Лифт/подъемник')
     author = models.ForeignKey(
         User,
@@ -149,6 +155,11 @@ class Task(models.Model):
         related_name='tasks_author',
         null=True,
         blank=True,
+    )
+    order_date = models.DateField(
+        verbose_name='Дата назначения задания',
+        blank=True,
+        null=True
     )
     worker = models.ForeignKey(
         User,
@@ -167,6 +178,12 @@ class Task(models.Model):
         max_length=300,
         verbose_name='Отчёт',
         blank=True
+    )
+    fixed = models.BooleanField(
+        default=False,
+        verbose_name='Отметка о выполнении',
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
