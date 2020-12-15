@@ -155,6 +155,13 @@ class TaskUpdate(UpdateView):
         context['title_post'] = 'Редактирование плана'
         return context
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user
+        })
+        return kwargs
+
 
 class NewTask(CreateView):
     model = Task

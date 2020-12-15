@@ -1,6 +1,7 @@
 from django import forms
 from . import models
 from dal import autocomplete
+from django.contrib.auth.models import Group
 
 
 class ClaimForm(forms.ModelForm):
@@ -44,6 +45,32 @@ class ElevatorForm(forms.ModelForm):
 
 
 class TaskForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        user_groups = self.user.groups.all()
+        super().__init__(*args, **kwargs)
+        if user_groups.filter(name='Электромеханики').exists():
+            for field in self.fields:
+                if field != 'report_text':
+                    self.fields[field].widget.attrs['disabled'] = 'disabled'
+            # self.fields['task_text'].widget.attrs['disabled'] = 'disabled'
+
+    # def clean_task_text(self):
+    #     instance = getattr(self, 'instance', None)
+    #     if instance:
+    #         return instance.task_text
+    #     else:
+    #         return self.cleaned_data.get('task_text', None)
+    #
+    # def clean_elevator(self):
+    #     instance = getattr(self, 'instance', None)
+    #     if instance:
+    #         try:
+    #         return instance.elevator
+    #     else:
+    #         return self.cleaned_data.get('elevator', None)
+
     class Meta:
         model = models.Task
         fields = '__all__'
