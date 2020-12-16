@@ -104,6 +104,7 @@ class Claim(models.Model):
         verbose_name='Лифт',
         related_name='claims_elevator',
         null=True,
+        blank=True,
     )
     worker = models.ForeignKey(
         User,

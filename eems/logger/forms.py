@@ -45,16 +45,37 @@ class ElevatorForm(forms.ModelForm):
 
 
 class TaskForm(forms.ModelForm):
+    readonly_fields = (
+        'task_text',
+        # 'pub_date',
+        'region',
+        # 'elevator',
+    )
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         user_groups = self.user.groups.all()
         super().__init__(*args, **kwargs)
+        # for field in self.readonly:
+        #     self.fields[field].widget.attrs['disabled'] = True
         if user_groups.filter(name='Электромеханики').exists():
-            for field in self.fields:
-                if field != 'report_text':
-                    self.fields[field].widget.attrs['disabled'] = 'disabled'
+            for field in self.readonly_fields:
+                self.fields[field].widget.attrs['disabled'] = True
             # self.fields['task_text'].widget.attrs['disabled'] = 'disabled'
+
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     for field in self.fields:
+    #         cleaned_data[field] = getattr(self.instance, field)
+    #     return cleaned_data
+
+    def clean(self):
+        cleaned_data = super().clean()
+        user_groups = self.user.groups.all()
+        if user_groups.filter(name='Электромеханики').exists():
+            for field in self.readonly_fields:
+                cleaned_data[field] = getattr(self.instance, field)
+        return cleaned_data
 
     # def clean_task_text(self):
     #     instance = getattr(self, 'instance', None)
