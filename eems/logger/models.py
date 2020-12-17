@@ -139,8 +139,16 @@ class Task(models.Model):
         ('region1', '1 участок'),
         ('region2', '2 участок'),
     )
-    task_text = models.CharField(max_length=300, verbose_name='Замечание', blank=True)
-    pub_date = models.DateField(verbose_name='Дата выявления замечания', default=timezone.now)
+    task_text = models.CharField(
+        max_length=300,
+        verbose_name='Замечание',
+        blank=True,
+    )
+    pub_date = models.DateField(
+        verbose_name='Дата выявления замечания',
+        default=timezone.now,
+        blank=True,
+    )
     region = models.CharField(
         max_length=7,
         choices=REGIONS,
@@ -148,7 +156,12 @@ class Task(models.Model):
         blank=True,
         null=True
     )
-    elevator = models.ForeignKey(Elevator, on_delete=models.CASCADE, verbose_name='Лифт/подъемник')
+    elevator = models.ForeignKey(
+        Elevator,
+        on_delete=models.CASCADE,
+        verbose_name='Лифт',
+        blank=True,
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -173,7 +186,8 @@ class Task(models.Model):
     )
     fix_date = models.DateField(
         verbose_name='Дата выполнения',
-        blank=True, null=True
+        blank=True,
+        null=True
     )
     report_text = models.CharField(
         max_length=300,

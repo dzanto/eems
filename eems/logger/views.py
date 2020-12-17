@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
-from .models import Claim, Address, Task
+from .models import Claim, Address, Task, Elevator
 from django.views import generic
 from django.urls import reverse_lazy
 from .forms import ClaimForm, AddressForm, ElevatorForm, TaskForm
-from .tables import ClaimTable, TaskTable
+from .tables import ClaimTable, TaskTable, AddressTable, ElevatorTable
 from django_tables2 import RequestConfig, SingleTableView
 from datetime import datetime
 from django_filters.views import FilterView
@@ -63,12 +63,6 @@ def claim_edit(request, claim_id):
                    "button_post": button_post})
 
 
-# class IndexView(SingleTableView):
-#     model = Claim
-#     table_class = ClaimTable
-#     template_name = 'index.html'
-
-
 class FilteredClaimListView(SingleTableMixin, FilterView):
     table_class = ClaimTable
     model = Claim
@@ -80,6 +74,13 @@ class FilteredClaimListView(SingleTableMixin, FilterView):
 class FilteredTaskListView(SingleTableMixin, FilterView):
     table_class = TaskTable
     model = Task
+    template_name = "index.html"
+    filterset_class = TaskFilter
+
+
+class FilteredAddressListView(SingleTableMixin, FilterView):
+    table_class = AddressTable
+    model = Elevator
     template_name = "index.html"
     filterset_class = TaskFilter
 
@@ -182,3 +183,9 @@ class NewTask(CreateView):
         context['title_post'] = 'Добавить в план'
         return context
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user
+        })
+        return kwargs
