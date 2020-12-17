@@ -9,9 +9,10 @@ from django_tables2 import RequestConfig, SingleTableView
 from datetime import datetime
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin, SingleTableView
-from .filters import ClaimFilter, TaskFilter
+from .filters import ClaimFilter, TaskFilter, ElevatorFilter, AddressFilter
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.core import paginator
+from django.contrib.auth.decorators import login_required
 
 
 def new_claim(request):
@@ -76,13 +77,23 @@ class FilteredTaskListView(SingleTableMixin, FilterView):
     model = Task
     template_name = "index.html"
     filterset_class = TaskFilter
+    paginate_by = 20
 
 
 class FilteredAddressListView(SingleTableMixin, FilterView):
     table_class = AddressTable
+    model = Address
+    template_name = "index.html"
+    filterset_class = AddressFilter
+    paginate_by = 20
+
+
+class FilteredElevatorListView(SingleTableMixin, FilterView):
+    table_class = ElevatorTable
     model = Elevator
     template_name = "index.html"
-    filterset_class = TaskFilter
+    filterset_class = ElevatorFilter
+    paginate_by = 20
 
 
 class ClaimDetailView(generic.DetailView):

@@ -1,9 +1,11 @@
 import django_filters
-from .models import Claim, Task, Elevator, Address
+from .models import Claim, Task, Elevator, Address, REGIONS
 from django.db.models import Q
-# from django.contrib.auth import get_user_model
-#
-# User = get_user_model()
+from django.contrib.auth import get_user_model
+from django_filters import widgets
+from django import forms
+
+User = get_user_model()
 
 
 class ClaimFilter(django_filters.FilterSet):
@@ -55,16 +57,25 @@ class TaskFilter(django_filters.FilterSet):
         method='elevator_filter',
         label='Адрес'
     )
-    # worker = django_filters.ModelChoiceFilter(
-    #     queryset=User.objects.all(),
-    #     label='Исполнитель'
-    # )
+    region = django_filters.ChoiceFilter(
+        choices=REGIONS,
+        empty_label='Участок',
+    )
+    worker = django_filters.ModelChoiceFilter(
+        queryset=User.objects.all(),
+        label='Исполнитель',
+        empty_label='Исполнитель',
+    )
+    fixed = django_filters.BooleanFilter(
+        widget=forms.CheckboxInput()
+    )
 
     class Meta:
         model = Task
         fields = [
             'task',
             'elevator',
+            'region',
             'worker',
             'fixed',
         ]
@@ -97,4 +108,16 @@ class ElevatorFilter(django_filters.FilterSet):
         model = Elevator
         fields = [
             'address'
+        ]
+
+
+class AddressFilter(django_filters.FilterSet):
+    street = django_filters.CharFilter(lookup_expr='icontains', label='Улица')
+    house = django_filters.CharFilter(lookup_expr='icontains', label='Дом')
+
+    class Meta:
+        model = Address
+        fields = [
+            'street',
+            'house',
         ]

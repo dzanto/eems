@@ -3,14 +3,12 @@
     <nav class="my-2 my-md-0 mr-md-3">
         {% if user.groups.all.0.name == 'Диспетчеры' or user.groups.all.0.name == 'Инженеры' or user.groups.all.0.name == 'Мастера' or user.username == 'admin' %}
             <a class="p-2 text-dark" href="{% url 'logger:index' %}">Журнал заявок</a>
-            <a class="p-2 text-dark" href="{% url 'logger:new_claim' %}">Новая заявка</a>
-            <a class="p-2 text-dark" href="{% url 'logger:new_address' %}">Добавить адрес</a>
-            <a class="p-2 text-dark" href="{% url 'logger:new_elevator' %}">Добавить лифт</a>
+            <a class="p-2 text-dark" href="{% url 'logger:new_claim' %}">Новая заявка</a> |
         {% endif %}
 
         {% if user.groups.all.0.name == 'Электромеханики' or user.groups.all.0.name == 'Инженеры' or user.groups.all.0.name == 'Мастера' or user.username == 'admin' %}
-            <a class="p-2 text-dark" href="{% url 'logger:new_task' %}">Добавить в план</a>
             <a class="p-2 text-dark" href="{% url 'logger:tasks' %}">Планы</a>
+            <a class="p-2 text-dark" href="{% url 'logger:new_task' %}">Добавить в план</a> |
         {% endif %}
 
         {% if user.is_authenticated %}
@@ -22,26 +20,14 @@
     </nav>
 </nav>
 
-<nav class="navbar navbar-light" style="background-color: #e3e8fd;">
-    <a class="navbar-brand" href="/"><span style="color:red">В</span>ологдалифт</a>
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="/"></a>
     <nav class="my-2 my-md-0 mr-md-3">
         {% if user.groups.all.0.name == 'Диспетчеры' or user.groups.all.0.name == 'Инженеры' or user.groups.all.0.name == 'Мастера' or user.username == 'admin' %}
-            <a class="p-2 text-dark" href="{% url 'logger:index' %}">Журнал заявок</a>
-            <a class="p-2 text-dark" href="{% url 'logger:new_claim' %}">Новая заявка</a>
-            <a class="p-2 text-dark" href="{% url 'logger:new_address' %}">Добавить адрес</a>
+            <a class="p-2 text-dark" href="{% url 'logger:addresses' %}">Список адресов</a>
+            <a class="p-2 text-dark" href="{% url 'logger:new_address' %}">Добавить адрес</a> |
+            <a class="p-2 text-dark" href="{% url 'logger:elevators' %}">Список лифтов</a>
             <a class="p-2 text-dark" href="{% url 'logger:new_elevator' %}">Добавить лифт</a>
-        {% endif %}
-
-        {% if user.groups.all.0.name == 'Электромеханики' or user.groups.all.0.name == 'Инженеры' or user.groups.all.0.name == 'Мастера' or user.username == 'admin' %}
-            <a class="p-2 text-dark" href="{% url 'logger:new_task' %}">Добавить в план</a>
-            <a class="p-2 text-dark" href="{% url 'logger:tasks' %}">Планы</a>
-        {% endif %}
-
-        {% if user.is_authenticated %}
-            Пользователь: <span style="color:red"> {{ user.username }} </span>
-            <a class="p-2 text-dark" href="{% url 'logout' %}">Выйти</a>
-        {% else %}
-            <a class="p-2 text-dark" href="{% url 'login' %}">Войти</a>
         {% endif %}
     </nav>
 </nav>

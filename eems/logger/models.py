@@ -134,11 +134,14 @@ class Claim(models.Model):
         return self.claim_text
 
 
+REGIONS = (
+    ('region1', '1 участок'),
+    ('region2', '2 участок'),
+)
+
+
 class Task(models.Model):
-    REGIONS = (
-        ('region1', '1 участок'),
-        ('region2', '2 участок'),
-    )
+
     task_text = models.CharField(
         max_length=300,
         verbose_name='Замечание',

@@ -30,10 +30,11 @@ class AddressTable(tables.Table):
     class Meta:
         model = Address
         template_name = 'django_tables2/bootstrap4.html'
+        fields = ['street', 'house', 'entrance']
 
 
 class ElevatorTable(tables.Table):
     class Meta:
         model = Elevator
         template_name = 'django_tables2/bootstrap4.html'
-
+        fields = ['address', 'note']

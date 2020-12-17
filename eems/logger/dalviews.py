@@ -5,6 +5,8 @@ from django.db.models import Q
 
 class AddressAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return models.Address.objects.none()
         qs = models.Address.objects.all()
         if self.q:
             value_list = self.q.split(' ')
@@ -18,6 +20,8 @@ class AddressAutocomplete(autocomplete.Select2QuerySetView):
 
 class UserAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return models.User.objects.none()
         qs = models.User.objects.all()
         if self.q:
             qs = qs.filter(last_name__startswith=self.q)
@@ -26,6 +30,8 @@ class UserAutocomplete(autocomplete.Select2QuerySetView):
 
 class ElevatorAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return models.Elevator.objects.none()
         qs = models.Elevator.objects.all()
         if self.q:
             value_list = self.q.split(' ')
