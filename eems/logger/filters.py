@@ -41,9 +41,9 @@ class ClaimFilter(django_filters.FilterSet):
         qs = Claim.objects.all()
         for value in value_list:
             qs = qs.exclude(
-                ~Q(address__street__icontains=value) &
-                ~Q(address__house__icontains=value) &
-                ~Q(address__entrance__icontains=value)
+                ~Q(elevator__address__street__icontains=value) &
+                ~Q(elevator__address__house__icontains=value) &
+                ~Q(elevator__address__entrance__icontains=value)
             )
         return qs
 
@@ -66,9 +66,9 @@ class TaskFilter(django_filters.FilterSet):
         label='Исполнитель',
         empty_label='Исполнитель',
     )
-    fixed = django_filters.BooleanFilter(
-        widget=forms.CheckboxInput()
-    )
+    # fixed = django_filters.BooleanFilter(
+    #     widget=forms.CheckboxInput()
+    # )
 
     class Meta:
         model = Task

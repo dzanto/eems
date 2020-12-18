@@ -8,7 +8,11 @@ User = get_user_model()
 
 
 def get_user_name(self):
-    return '{} {}'.format(self.last_name, self.first_name)
+    if self.first_name:
+        user_name = '{} {}.'.format(self.last_name, self.first_name[:1])
+    else:
+        user_name = self.username
+    return user_name
 
 
 User.add_to_class("__str__", get_user_name)
@@ -25,17 +29,17 @@ class Address(models.Model):
     def __str__(self):
         address = []
         if self.city != '':
-            address.append(f'г. {self.city}')
+            address.append(f'г.{self.city}')
         if self.street != '':
             address.append(f'{self.street}')
         if self.house != '':
-            address.append(f'д. {self.house}')
+            address.append(f'д.{self.house}')
         if self.entrance != '':
-            address.append(f'п. {self.entrance}')
+            address.append(f'п.{self.entrance}')
         if self.floor != '':
-            address.append(f'эт. {self.floor}')
+            address.append(f'эт.{self.floor}')
         if self.apartment != '':
-            address.append(f'кв. {self.apartment}')
+            address.append(f'кв.{self.apartment}')
         return ', '.join(address)
 
     class Meta:
@@ -148,7 +152,7 @@ class Task(models.Model):
         blank=True,
     )
     pub_date = models.DateField(
-        verbose_name='Дата выявления замечания',
+        verbose_name='Дата замечания',
         default=timezone.now,
         blank=True,
     )
@@ -174,7 +178,7 @@ class Task(models.Model):
         blank=True,
     )
     order_date = models.DateField(
-        verbose_name='Дата назначения задания',
+        verbose_name='Дата выдачи задания',
         blank=True,
         null=True
     )
