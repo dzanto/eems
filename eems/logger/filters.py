@@ -48,6 +48,16 @@ class ClaimFilter(django_filters.FilterSet):
         return qs
 
 
+# class RusBooleanField(forms.NullBooleanSelect):
+#     def __init__(self, attrs=None):
+#         choices = (
+#             ('unknown', _('Отметка')),
+#             ('true', _('Yes')),
+#             ('false', _('No')),
+#         )
+#         super().__init__(attrs, choices)
+
+
 class TaskFilter(django_filters.FilterSet):
     task = django_filters.CharFilter(
         method='task_and_report_filter',
@@ -66,8 +76,11 @@ class TaskFilter(django_filters.FilterSet):
         label='Исполнитель',
         empty_label='Исполнитель',
     )
-    # fixed = django_filters.BooleanFilter(
-    #     widget=forms.CheckboxInput()
+    # fixed = forms.NullBooleanSelect(
+    #     choices=[
+    #         (None, "Male and female"),
+    #         (True, "Only female"),
+    #         (False, "Only Male")]
     # )
 
     class Meta:
