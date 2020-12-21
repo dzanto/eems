@@ -1,7 +1,6 @@
 from django import forms
 from . import models
 from dal import autocomplete
-from django.contrib.auth.models import Group
 
 
 class ClaimForm(forms.ModelForm):
@@ -10,11 +9,9 @@ class ClaimForm(forms.ModelForm):
         model = models.Claim
         fields = '__all__'
         exclude = ['author', 'address']
-
         help_texts = {
             "claim_text": "Введите текст заявки",
         }
-
         labels = {
             'claim_text': 'Текст',
         }
@@ -34,11 +31,9 @@ class OtherClaimForm(forms.ModelForm):
     class Meta:
         model = models.Claim
         exclude = ['author', 'elevator']
-
         help_texts = {
             "claim_text": "Введите текст заявки",
         }
-
         labels = {
             'claim_text': 'Текст',
         }
@@ -56,12 +51,18 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = models.Address
         fields = '__all__'
+        help_texts = {
+            "city": "Необязательное поле",
+            'entrance': 'Необязательное поле',
+            'floor': 'Необязательное поле',
+            'apartment': 'Необязательное поле',
+        }
 
 
 class ElevatorForm(forms.ModelForm):
     class Meta:
         model = models.Elevator
-        fields = '__all__'
+        fields = ['address', 'note']
         widgets = {
             'address': autocomplete.ModelSelect2(url='logger:address-autocomplete'),
         }

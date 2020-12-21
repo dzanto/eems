@@ -18,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 def new_claim(request):
     title_post = "Добавить заявку"
     button_post = "Добавить"
+    title_page = 'Новая заявка по лифтам'
 
     if request.method != "POST":
         # initial_data = {
@@ -28,7 +29,8 @@ def new_claim(request):
         return render(request, "new_object.html", {
             "form": form,
             "title_post": title_post,
-            "button_post": button_post
+            "button_post": button_post,
+            'title_page': title_page,
         })
 
     form = ClaimForm(request.POST)
@@ -36,7 +38,8 @@ def new_claim(request):
         return render(request, "new_object.html", {
             "form": form,
             "title_post": title_post,
-            "button_post": button_post
+            "button_post": button_post,
+            'title_page': title_page,
         })
 
     claim = form.save(commit=False)
