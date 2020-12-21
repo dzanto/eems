@@ -8,10 +8,20 @@ class ClaimTable(tables.Table):
     class Meta:
         model = Claim
         template_name = 'includes/bootstrap4.html'
-        # exclude = ['id', 'address']
         fields = ['pub_date', 'elevator', 'claim_text', 'fix_date_time', 'report_text', 'worker', 'author']
 
     claim_text = tables.Column(linkify=("logger:claim_edit", [tables.A("pk")]))
+    pub_date = tables.DateTimeColumn(format='d.m.Y G:i')
+    fix_date_time = tables.DateColumn(format='d.m.Y G:i')
+
+
+class OtherClaimTable(tables.Table):
+    class Meta:
+        model = Claim
+        template_name = 'includes/bootstrap4.html'
+        fields = ['pub_date', 'address', 'claim_text', 'fix_date_time', 'report_text', 'worker', 'author']
+
+    claim_text = tables.Column(linkify=("logger:other_claim_edit", [tables.A("pk")]))
     pub_date = tables.DateTimeColumn(format='d.m.Y G:i')
     fix_date_time = tables.DateColumn(format='d.m.Y G:i')
 

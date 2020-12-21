@@ -76,12 +76,14 @@ class TaskFilter(django_filters.FilterSet):
         label='Исполнитель',
         empty_label='Исполнитель',
     )
-    # fixed = forms.NullBooleanSelect(
-    #     choices=[
-    #         (None, "Male and female"),
-    #         (True, "Only female"),
-    #         (False, "Only Male")]
-    # )
+    fixed = django_filters.BooleanFilter(
+        widget=forms.Select(
+            choices=[
+                ('', "Отметка(все)"),
+                (True, "Выполнено"),
+                (False, "Не выполнено")]
+        )
+    )
 
     class Meta:
         model = Task

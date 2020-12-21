@@ -2,8 +2,10 @@
     <a class="navbar-brand" href="/"><span style="color:red">В</span>ологдалифт</a>
     <nav class="my-2 my-md-0 mr-md-3">
         {% if user.groups.all.0.name == 'Диспетчеры' or user.groups.all.0.name == 'Инженеры' or user.groups.all.0.name == 'Мастера' or user.username == 'admin' %}
-            <a class="p-2 text-dark" href="{% url 'logger:index' %}">Журнал заявок</a>
+            <a class="p-2 text-dark" href="{% url 'logger:index' %}">Журнал заявок по лифтам</a>
             <a class="p-2 text-dark" href="{% url 'logger:new_claim' %}">Новая заявка</a> |
+            <a class="p-2 text-dark" href="{% url 'logger:other_claims' %}">Журнал прочих заявок</a>
+            <a class="p-2 text-dark" href="{% url 'logger:new_other_claim' %}">Новая заявка по электрике</a> |
         {% endif %}
 
         {% if user.groups.all.0.name == 'Электромеханики' or user.groups.all.0.name == 'Инженеры' or user.groups.all.0.name == 'Мастера' or user.username == 'admin' %}

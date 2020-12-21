@@ -6,10 +6,13 @@ from django.contrib.auth.decorators import login_required
 
 app_name = 'logger'
 urlpatterns = [
-    path('', login_required(views.FilteredClaimListView.as_view()), name='index'),
+    path('', login_required(views.FilteredElevatorClaimListView.as_view()), name='index'),
     path('<int:pk>/', login_required(views.ClaimDetailView.as_view()), name='claim_detail'),
     path('new_claim/', login_required(views.new_claim), name='new_claim'),
     path('<int:claim_id>/edit/', login_required(views.claim_edit), name='claim_edit'),
+    path('other_claims/', login_required(views.FilteredOtherClaimListView.as_view()), name='other_claims'),
+    path('claims/<int:pk>/', login_required(views.OtherClaimUpdate.as_view()), name='other_claim_edit'),
+    path('new_other_claim/', login_required(views.NewOtherClaim.as_view()), name='new_other_claim'),
 
     path('new_address/', login_required(views.new_address), name='new_address'),
     path('addresses/', login_required(views.FilteredAddressListView.as_view()), name='addresses'),

@@ -3,8 +3,8 @@ from django.http import Http404
 from .models import Claim, Address, Task, Elevator
 from django.views import generic
 from django.urls import reverse_lazy
-from .forms import ClaimForm, AddressForm, ElevatorForm, TaskForm
-from .tables import ClaimTable, TaskTable, AddressTable, ElevatorTable
+from .forms import (ClaimForm, AddressForm, ElevatorForm, TaskForm, OtherClaimForm)
+from .tables import (ClaimTable, TaskTable, AddressTable, ElevatorTable, OtherClaimTable)
 from django_tables2 import RequestConfig, SingleTableView
 from datetime import datetime
 from django_filters.views import FilterView
@@ -64,12 +64,58 @@ def claim_edit(request, claim_id):
                    "button_post": button_post})
 
 
-class FilteredClaimListView(SingleTableMixin, FilterView):
+class FilteredElevatorClaimListView(SingleTableMixin, FilterView):
     table_class = ClaimTable
-    model = Claim
     template_name = "index.html"
     filterset_class = ClaimFilter
     paginate_by = 20
+
+    def get_queryset(self):
+        qs = Claim.objects.exclude(elevator=None)
+        return qs
+
+
+class FilteredOtherClaimListView(SingleTableMixin, FilterView):
+    table_class = OtherClaimTable
+    template_name = "index.html"
+    filterset_class = ClaimFilter
+    paginate_by = 20
+
+    def get_queryset(self):
+        qs = Claim.objects.filter(elevator=None)
+        return qs
+
+
+class NewOtherClaim(CreateView):
+    model = Claim
+    template_name = 'new_object.html'
+    form_class = OtherClaimForm
+    success_url = reverse_lazy('logger:other_claims')
+
+    def form_valid(self, form):
+        task = form.save(commit=False)
+        task.author = self.request.user
+        task.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['button_post'] = 'Добавить'
+        context['title_post'] = 'Добавить заявку'
+        return context
+
+
+class OtherClaimUpdate(UpdateView):
+    model = Claim
+    template_name = 'new_object.html'
+    form_class = OtherClaimForm
+    success_url = reverse_lazy('logger:other_claims')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['button_post'] = 'Сохранить'
+        context['title_post'] = 'Редактирование заявки'
+        return context
 
 
 class FilteredTaskListView(SingleTableMixin, FilterView):
