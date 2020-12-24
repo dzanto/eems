@@ -79,19 +79,20 @@ class TaskForm(forms.ModelForm):
         'fix_date',
         'fixed',
     )
+    readonly_group = 'Электромеханики'
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         user_groups = self.user.groups.all()
         super().__init__(*args, **kwargs)
-        if user_groups.filter(name='Электромеханики').exists():
+        if user_groups.filter(name=self.readonly_group).exists():
             for field in self.readonly_fields:
                 self.fields[field].widget.attrs['disabled'] = True
 
     def clean(self):
         cleaned_data = super().clean()
         user_groups = self.user.groups.all()
-        if user_groups.filter(name='Электромеханики').exists():
+        if user_groups.filter(name=self.readonly_group).exists():
             for field in self.readonly_fields:
                 cleaned_data[field] = getattr(self.instance, field)
         return cleaned_data
