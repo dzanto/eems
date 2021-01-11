@@ -13,14 +13,14 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 from django.conf.global_settings import DATETIME_INPUT_FORMATS
-import environ
 
-env = environ.Env()
-environ.Env.read_env()
+# import environ
+#
+# env = environ.Env()
+# environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -32,7 +32,6 @@ SECRET_KEY = '=(ty4)g272764rtzssr-#-44l8a$0)_d#^ti+s7oc(i&78)42&'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -83,7 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'eems.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -94,17 +92,17 @@ WSGI_APPLICATION = 'eems.wsgi.application'
 #     }
 # }
 DATABASES = {
-    'default': env.db(),
-#    'default': {
-#        'ENGINE': os.environ.get('DB_ENGINE'),
-#        'NAME': os.environ.get('DB_NAME'),
-#        'USER': os.environ.get('POSTGRES_USER'),
-#        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-#        'HOST': os.environ.get('DB_HOST'),
-#        'PORT': os.environ.get('DB_PORT'),
-#    }
-}
+    # 'default': env.db(),
 
+    'default': {
+        'ENGINE': os.environ.get('DB_ENGINE'),
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -124,7 +122,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -137,7 +134,6 @@ USE_I18N = True
 USE_L10N = False
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
