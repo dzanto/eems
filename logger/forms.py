@@ -58,15 +58,14 @@ class AddressForm(forms.ModelForm):
             'floor': 'Необязательное поле',
             'apartment': 'Необязательное поле',
         }
+        error_messages = {
+            NON_FIELD_ERRORS: {
+                'unique_together': "Такой адрес уже существует",
+            }
+        }
 
 
 class ElevatorForm(forms.ModelForm):
-    # def clean(self):
-    #     cleaned_data = self.cleaned_data
-    #     address = cleaned_data['address']
-    #     if address and models.Elevator.objects.filter(address=address).exists():
-    #         raise forms.ValidationError('Лифт с таким адресом уже существует')
-    #     return cleaned_data
 
     class Meta:
         model = models.Elevator
@@ -76,7 +75,7 @@ class ElevatorForm(forms.ModelForm):
         }
         error_messages = {
             NON_FIELD_ERRORS: {
-                'unique_together': "%(model_name)s's %(field_labels)s are not unique.",
+                'unique_together': "Лифт с таким адресом и примечанием уже существует",
             }
         }
 

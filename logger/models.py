@@ -90,12 +90,6 @@ class Elevator(models.Model):
     def __str__(self):
         return f'{self.address} {self.note}'
 
-    # def unique_error_message(self, model_class, unique_check):
-    #     if model_class == type(self) and unique_check == ('address', 'note'):
-    #         return 'Лифт с таким адресом уже существует'
-    #     else:
-    #         return super().unique_error_message(model_class, unique_check)
-
     class Meta:
         verbose_name = 'Лифт'
         verbose_name_plural = 'Лифты'
