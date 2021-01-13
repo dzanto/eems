@@ -4,6 +4,7 @@ venv/
 .venv
 .venv/
 pyvenv.cfg
+*/.env
 
 __pycache__/
 *.py[cod]
@@ -18,4 +19,6 @@ __pycache__/
 
 
 db.sqlite3
+db.json
+sqlite.db
 */migrations

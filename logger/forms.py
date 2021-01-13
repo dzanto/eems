@@ -1,6 +1,7 @@
 from django import forms
 from . import models
 from dal import autocomplete
+from django.core.exceptions import NON_FIELD_ERRORS
 
 
 class ClaimForm(forms.ModelForm):
@@ -60,11 +61,23 @@ class AddressForm(forms.ModelForm):
 
 
 class ElevatorForm(forms.ModelForm):
+    # def clean(self):
+    #     cleaned_data = self.cleaned_data
+    #     address = cleaned_data['address']
+    #     if address and models.Elevator.objects.filter(address=address).exists():
+    #         raise forms.ValidationError('Лифт с таким адресом уже существует')
+    #     return cleaned_data
+
     class Meta:
         model = models.Elevator
         fields = ['address', 'note']
         widgets = {
             'address': autocomplete.ModelSelect2(url='logger:address-autocomplete'),
+        }
+        error_messages = {
+            NON_FIELD_ERRORS: {
+                'unique_together': "%(model_name)s's %(field_labels)s are not unique.",
+            }
         }
 
 
