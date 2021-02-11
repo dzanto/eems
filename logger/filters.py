@@ -119,10 +119,26 @@ class TaskFilter(django_filters.FilterSet):
 
 class ElevatorFilter(django_filters.FilterSet):
 
+    elevator = django_filters.CharFilter(
+        method='elevator_filter',
+        label='Адрес'
+    )
+
+    def elevator_filter(self, queryset, name, value):
+        value_list = value.split(' ')
+        qs = Elevator.objects.all()
+        for value in value_list:
+            qs = qs.exclude(
+                ~Q(address__street__icontains=value) &
+                ~Q(address__house__icontains=value) &
+                ~Q(address__entrance__icontains=value)
+            )
+        return qs
+
     class Meta:
         model = Elevator
         fields = [
-            'address'
+            'elevator'
         ]
 
 
