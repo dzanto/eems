@@ -29,7 +29,7 @@ class OtherClaimTable(tables.Table):
 class TaskTable(tables.Table):
     class Meta:
         model = Task
-        template_name = 'django_tables2/bootstrap.html'
+        template_name = 'django_tables2/bootstrap4.html'
         fields = ['pub_date', 'elevator', 'task_text', 'report_text', 'worker', 'fixed', 'fix_date']
 
     task_text = tables.Column(linkify=("logger:task-update", [tables.A("pk")]))
