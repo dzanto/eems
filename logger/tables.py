@@ -44,9 +44,13 @@ class AddressTable(tables.Table):
         template_name = 'django_tables2/bootstrap4.html'
         fields = ['street', 'house', 'entrance']
 
+    street = tables.Column(linkify=("logger:address-update", [tables.A("pk")]))
+
 
 class ElevatorTable(tables.Table):
     class Meta:
         model = Elevator
         template_name = 'django_tables2/bootstrap4.html'
         fields = ['address', 'note']
+
+    address = tables.Column(linkify=("logger:elevator-update", [tables.A("pk")]))

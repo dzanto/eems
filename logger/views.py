@@ -117,6 +117,20 @@ class NewAddressView(CreateView):
         return context
 
 
+class UpdateAddressView(UpdateView):
+    model = Address
+    template_name = 'new_object.html'
+    form_class = AddressForm
+    success_url = reverse_lazy('logger:addresses')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title_post'] = 'Изменить адрес'
+        context['button_post'] = 'Сохранить'
+
+        return context
+
+
 class FilteredAddressListView(SingleTableMixin, FilterView):
     table_class = AddressTable
     model = Address
@@ -135,6 +149,20 @@ class NewElevatorView(CreateView):
         context = super().get_context_data(**kwargs)
         context['button_post'] = 'Добавить лифт'
         context['title_post'] = 'Добавить лифт'
+        return context
+
+
+class UpdateElevatorView(UpdateView):
+    model = Elevator
+    template_name = 'new_object.html'
+    form_class = ElevatorForm
+    success_url = reverse_lazy('logger:elevators')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title_post'] = 'Редактирование данных о лифте'
+        context['button_post'] = 'Сохранить'
+
         return context
 
 

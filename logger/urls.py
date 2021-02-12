@@ -42,6 +42,10 @@ urlpatterns = [
         'addresses/',
         login_required(views.FilteredAddressListView.as_view()),
         name='addresses'),
+    path(
+        'addresses/<int:pk>/',
+        login_required(views.UpdateAddressView.as_view()),
+        name='address-update'),
 
     # urls для работы с лифтами
     path(
@@ -52,6 +56,10 @@ urlpatterns = [
         'elevators/',
         login_required(views.FilteredElevatorListView.as_view()),
         name='elevators'),
+    path(
+        'elevators/<int:pk>/',
+        login_required(views.UpdateElevatorView.as_view()),
+        name='elevator-update'),
 
     # urls для работы с планами механиков
     path(
