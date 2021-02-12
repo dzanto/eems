@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
 from .models import Address, Claim, Elevator, Owner, Task
 
 
@@ -14,8 +13,20 @@ class ClaimAdmin(admin.ModelAdmin):
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     list_display = ('street', 'house', 'entrance')
-    search_fields = ['street', 'house',]
+    search_fields = ['street', 'house']
 
-admin.site.register(Elevator)
+
+@admin.register(Elevator)
+class ElevatorAdmin(admin.ModelAdmin):
+    list_display = ('address', 'note')
+    search_fields = ['address', 'note']
+
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    fields = ['elevator', 'pub_date', 'task_text']
+    list_display = ('elevator', 'pub_date', 'task_text')
+    search_fields = ['elevator', 'task_text']
+
+
 admin.site.register(Owner)
-admin.site.register(Task)
