@@ -30,12 +30,12 @@ class TaskTable(tables.Table):
     class Meta:
         model = Task
         template_name = 'django_tables2/bootstrap.html'
-        fields = ['pub_date', 'elevator', 'task_text', 'report_text', 'worker', 'fixed']
+        fields = ['pub_date', 'elevator', 'task_text', 'report_text', 'worker', 'fixed', 'fix_date']
 
     task_text = tables.Column(linkify=("logger:task-update", [tables.A("pk")]))
     pub_date = tables.DateColumn(format='d.m.Y')
-    order_date = tables.DateColumn(format='d.m.Y')
-    # fix_date = tables.DateColumn(format='d.m.Y')
+    # order_date = tables.DateColumn(format='d.m.Y')
+    fix_date = tables.DateColumn(format='d.m.Y')
 
 
 class AddressTable(tables.Table):
