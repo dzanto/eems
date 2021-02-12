@@ -19,14 +19,14 @@ class AddressAdmin(admin.ModelAdmin):
 @admin.register(Elevator)
 class ElevatorAdmin(admin.ModelAdmin):
     list_display = ('address', 'note')
-    search_fields = ['address', 'note']
+    search_fields = ['address__street', 'address__house', 'note']
 
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     fields = ['elevator', 'pub_date', 'task_text']
     list_display = ('elevator', 'pub_date', 'task_text')
-    search_fields = ['elevator', 'task_text']
+    search_fields = ['elevator__address__street', 'elevator__address__house', 'task_text']
 
 
 admin.site.register(Owner)
