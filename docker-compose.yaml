@@ -1,0 +1,33 @@
+version: '3.8'
+
+volumes:
+  # postgres_data:
+  eems_static_volume:
+
+services:
+  # db:
+  #   image: postgres:12.4
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data/
+  #   env_file:
+  #     - ./.env
+  eems:
+    image: dzanto/eems
+    restart: always
+    volumes:
+      - eems_static_volume:/code/static
+    expose:
+      - 8000
+    # depends_on:
+    #   - db
+    env_file:
+      - ./.env.example
+  nginx:
+    image: nginx:1.19.5-alpine
+    volumes:
+      - eems_static_volume:/code/static
+      - ./nginx:/etc/nginx/conf.d
+    ports:
+      - 8081:8000
+    depends_on:
+      - eems
